@@ -1,5 +1,6 @@
 #include "controller.hpp"
 
+#include <GL/glut.h>
 #include <algorithm>
 
 #include "view.hpp"
