@@ -6,7 +6,6 @@
 
 #include "common.hpp"
 #include "player.hpp"
-#include "model.hpp"
 
 double fov    = 50.0,
        near   = 0.1,

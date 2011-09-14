@@ -3,10 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "geom.hpp"
-#include "vert.hpp"
-#include "edge.hpp"
-#include "face.hpp"
+#include "../geom.hpp"
+#include "halfedge.hpp"
 
 class Model {
     public:
@@ -27,9 +25,9 @@ class Model {
         void toggle_normal_map_display();
 
     private:
-        HE_vert *verts;
+        Vert *verts;
         Face *faces;
-        HE_edge *edges;
+        Edge *edges;
 
         unsigned int num_verts, num_faces, num_edges;
 };

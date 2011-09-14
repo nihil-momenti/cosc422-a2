@@ -6,7 +6,6 @@
 #include "common.hpp"
 
 #include "view.hpp"
-#include "model.hpp"
 #include "controller.hpp"
 
 Model model;

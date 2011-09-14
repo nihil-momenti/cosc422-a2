@@ -14,7 +14,8 @@ include cosc_hacks.mk
 
 ###############################################################################
 
-C_FILES = $(wildcard src/*.cpp)
+C_FILES =  $(wildcard src/*.cpp)
+C_FILES += $(wildcard src/*/*.cpp)
 OBJECTS = $(C_FILES:.cpp=.o)
 
 ###############################################################################
@@ -28,6 +29,7 @@ basic: $(OBJECTS:src/%=build/%)
 
 
 build/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) -o $@ -c $<
 
 clean:

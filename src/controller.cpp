@@ -5,7 +5,6 @@
 
 #include "view.hpp"
 #include "player.hpp"
-#include "model.hpp"
 
 static std::pair<double,double> mouse_pos;
 static int left_button_state;

@@ -1,6 +1,6 @@
 #include <GL/gl.h>
 
-#include "face.hpp"
+#include "halfedge.hpp"
 
 Face::Face() {
     edge   = NULL;
@@ -21,11 +21,11 @@ Vector Face::normal() {
 }
 
 void Face::display() {
-    HE_edge *e = edge;
+    Edge *e = edge;
 
     do {
         Point  point =  e->vert->point;
-        Vector normal = e->vert->normal;
+        Vector normal = e->vert->normal();
 
         glNormal3d(normal.dx, normal.dy, normal.dz);
         glVertex3d(point.x, point.y, point.z);

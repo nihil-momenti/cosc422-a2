@@ -1,7 +1,7 @@
 #ifndef MAIN_HPP
 #define MAIN_HPP
 
-#include "model.hpp"
+#include "model/model.hpp"
 
 extern Model model;
 
