@@ -72,3 +72,7 @@ Vector Vector::operator* (double other) {
 Vector Vector::operator/ (double other) {
     return Vector(dx / other, dy / other, dz / other);
 }
+
+std::ostream& operator<< (std::ostream& o, const Vector& vector) {
+    return o << "(" << vector.dx << ", " << vector.dy << ", " << vector.dz << ")";
+}
