@@ -22,7 +22,7 @@ Model::Model(const Model& other) {
     num_edges = other.num_edges;
 
     verts = new HE_vert[num_verts];
-    faces = new HE_face[num_faces];
+    faces = new Face[num_faces];
     edges = new HE_edge[num_edges];
 
     std::copy(other.verts, other.verts + num_verts, verts);
@@ -49,12 +49,11 @@ Model::Model(const std::string filename) {
         fp_in >> vx >> vy >> vz;
         verts[i].point = Point(vx,vy,vz);
         verts[i].edge = NULL;
-        verts[i].index = i;
     }
 
     num_edges = num_faces * 3;
     
-    faces = new HE_face[num_faces];
+    faces = new Face[num_faces];
     // Need extra space for boundary edges.  Requirements unknown but at most the same as the number of edges.
     edges = new HE_edge[2*num_edges];
 
@@ -74,11 +73,9 @@ Model::Model(const std::string filename) {
             edges[3*i+j].prev = &edges[3*i+(j+2)%3];
             edges[3*i+j].face = &faces[i];
             edges[3*i+j].pair = NULL;
-            edges[3*i+j].index = 3*i+j;
         }
 
         faces[i].edge = &edges[3*i];
-        faces[i].index = i;
 
         l = 3*(i+1);
     }
@@ -124,7 +121,6 @@ Model::Model(const std::string filename) {
 
                 edges[l].face = NULL;
                 edges[l].pair = &edges[i];
-                edges[l].index = l;
 
                 l++;
             }
@@ -164,7 +160,7 @@ void Model::operator=(const Model& other) {
     num_edges = other.num_edges;
 
     verts = new HE_vert[num_verts];
-    faces = new HE_face[num_faces];
+    faces = new Face[num_faces];
     edges = new HE_edge[num_edges];
 
     std::copy(other.verts, other.verts + num_verts, verts);
@@ -191,35 +187,12 @@ void Model::operator=(const Model& other) {
 }
 
 void Model::display() {
-    HE_face face;
-    HE_edge *edge;
-    Point point;
-
-    unsigned int count = 0;
-    Vector normal, flat_normal;
     glBegin(GL_TRIANGLES);
+
     for (unsigned int i = 0; i < num_faces; i++) {
-        face = faces[i];
-
-        count++;
-        edge = face.edge;
-        point = edge->vert->point;
-        normal = edge->vert->normal;
-        glNormal3d(normal.dx, normal.dy, normal.dz);
-        glVertex3d(point.x, point.y, point.z);
-
-        edge = edge->next;
-        point = edge->vert->point;
-        normal = edge->vert->normal;
-        glNormal3d(normal.dx, normal.dy, normal.dz);
-        glVertex3d(point.x, point.y, point.z);
-
-        edge = edge->next;
-        point = edge->vert->point;
-        normal = edge->vert->normal;
-        glNormal3d(normal.dx, normal.dy, normal.dz);
-        glVertex3d(point.x, point.y, point.z);
+        faces[i].display();
     }
+
     glEnd();
 }
 
@@ -238,12 +211,9 @@ std::set<HE_vert*> one_ring(HE_edge *edge) {
     HE_edge *e0 = edge,
             *e = e0;
 
-    //std::cout << "Starting one_ring at [" << edge->index << "]" << std::endl;
-
     do {
         result.insert(e->pair->vert);
         e = e->pair->prev;
-        //std::cout << "Moving around on_ring to [" << e->index << "]" << std::endl;
     } while(e != e0);
 
     return result;
@@ -264,27 +234,12 @@ std::set<HE_vert*> two_ring(HE_edge *edge) {
     return result;
 }
 
-Vector normal(HE_face *face) {
-    if (face->normal != Vector()) {
-        return face->normal;
-    }
-
-    HE_edge *edge = face->edge;
-
-    Point point1 = edge->vert->point,
-          point2 = edge->next->vert->point,
-          point3 = edge->prev->vert->point;
-
-    face->normal = (point2 - point1).cross(point3 - point1).unit();
-    return face->normal;
-}
-
 void Model::calculate_normals() {
     for (unsigned int i = 0; i < num_verts; i++) {
         HE_edge *e0 = verts[i].edge, *e = e0;
         verts[i].normal = Vector(0,0,0);
         do {
-            verts[i].normal = verts[i].normal + normal(e->face);
+            verts[i].normal = verts[i].normal + e->face->normal();
             e = e->pair->prev;
         } while(e != e0);
         verts[i].normal = verts[i].normal.unit();

@@ -1,7 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "main.hpp"
 #include <algorithm>
 
 typedef enum {
@@ -13,10 +12,10 @@ typedef enum {
     DOWN
 } Direction;
 
-void player_init();
-void player_move(Direction);
-void player_stop(Direction);
-void player_turn(std::pair<double,double>);
-void player_look();
+extern void player_init();
+extern void player_move(Direction);
+extern void player_stop(Direction);
+extern void player_turn(std::pair<double,double>);
+extern void player_look();
 
 #endif

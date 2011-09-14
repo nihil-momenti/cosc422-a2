@@ -4,6 +4,7 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
+#include "common.hpp"
 #include "player.hpp"
 #include "model.hpp"
 

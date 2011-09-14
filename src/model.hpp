@@ -4,31 +4,9 @@
 #include <vector>
 
 #include "geom.hpp"
-
-struct HE_vert;
-struct HE_face;
-
-struct HE_edge {
-    unsigned int index;
-    HE_vert *vert;
-    HE_face *face;
-    HE_edge *next;
-    HE_edge *prev;
-    HE_edge *pair;
-};
-
-struct HE_vert {
-    unsigned int index;
-    Point point;
-    HE_edge *edge;
-    Vector normal;
-};
-
-struct HE_face {
-    unsigned int index;
-    HE_edge *edge;
-    Vector normal;
-};
+#include "vert.hpp"
+#include "edge.hpp"
+#include "face.hpp"
 
 class Model {
     public:
@@ -50,7 +28,7 @@ class Model {
 
     private:
         HE_vert *verts;
-        HE_face *faces;
+        Face *faces;
         HE_edge *edges;
 
         unsigned int num_verts, num_faces, num_edges;

@@ -3,7 +3,7 @@
 #include <cmath>
 #include <GL/glut.h>
 
-#include "main.hpp"
+#include "common.hpp"
 
 #include "view.hpp"
 #include "model.hpp"
