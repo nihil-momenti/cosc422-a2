@@ -22,12 +22,14 @@ Vector Face::normal() {
 
 void Face::display() {
     HE_edge *e = edge;
+
     do {
-        Point  point  = edge->vert->point;
-        Vector normal = edge->vert->normal;
+        Point  point =  e->vert->point;
+        Vector normal = e->vert->normal;
 
         glNormal3d(normal.dx, normal.dy, normal.dz);
         glVertex3d(point.x, point.y, point.z);
+
         e = e->next;
     } while (e != edge);
 }
