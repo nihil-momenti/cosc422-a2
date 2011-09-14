@@ -71,7 +71,7 @@ void view_display() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    glColor3f(0.8,0.0,0.0);
+    glColor3f(0.58,0.27,0.20);
     model.display();
 
     glFlush();
