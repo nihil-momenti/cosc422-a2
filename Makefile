@@ -11,11 +11,8 @@ CPPFLAGS += $(ORIGINAL_FLAGS)
 LDFLAGS += $(shell pkg-config --libs gl glu)
 
 
-MISSING_PKG_CONFIG = WARNING:: \
-Your system is missing the pkg-config info for glut. \
-This is the case on all the COSC department linuxmachines \
-so I will now attempt to use default build flags for it
 
+GLUT_H_DIR ?= /usr/include/GL
 CANT_FIND_GLUT_H = I couldnt find GL/glut.h so Im giving up
 
 CANT_FIND_GLUT_SO = I couldnt find libglut.so so Im giving up
@@ -26,14 +23,20 @@ FOUND_GLUT = I found GL/glut.h and libglut.so so Im attempting to use the defaul
 
 # Hackery cause the cosc linux installs are missing the glut pkg-config file.
 ifeq "$(strip $(shell pkg-config --cflags glut))" ""
-  $(warning $(MISSING_PKG_CONFIG))
-  ifeq "$(strip $(shell locate 'GL/glut.h'))" ""
-    $(error $(CANT_FIND_GLUT_H))
+  $(warning WARNING:: )
+	$(warning Your system is missing the pkg-config info for glut. This )
+	$(warning is the case on all the UC COSC department linux machines  )
+	$(warning so I will now attempt to use default build flags for it.  )
+  ifeq "$(strip $(shell ls '$(GLUT_H_DIR)/glut.h'))" ""
+		$(warning I couldn\'t find `glut.h` in `$(GLUT_H_DIR)` so I\'m giving up. )
+		$(warning Set `GLUT_H_DIR` to the correct location to continue.           )
   else ifeq "$(strip $(shell locate '*/libglut.so'))" ""
-    $(error $(CANT_FIND_GLUT_SO))
+		$(error I couldn\'t find `libglut.so` so I\'m giving up. )
   else
-    $(warning $(FOUND_GLUT))
-    CPPFLAGS += -I/usr/include
+		$(warning FOUND_GLUT = I found GL/glut.h and libglut.so so Im attempting to use the default flags )
+		$(warning \t\(CPPFLAGS += -I$(GLUT_H_DIR)\) )
+		$(warning \t\(LDFLAGS += -lglut\) )
+    CPPFLAGS += -I$(GLUT_H_DIR)
     LDFLAGS += -lglut
   endif
 else
