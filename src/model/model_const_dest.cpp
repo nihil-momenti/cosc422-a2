@@ -5,12 +5,14 @@ Model::Model() {
     verts = NULL;
     faces = NULL;
     edges = NULL;
+    angle = 0.0;
 }
 
 Model::Model(const Model& other) {
     num_verts = other.num_verts;
     num_faces = other.num_faces;
     num_edges = other.num_edges;
+    angle = other.angle;
 
     verts = new Vert[num_verts];
     faces = new Face[num_faces];
@@ -35,6 +37,7 @@ void Model::operator=(const Model& other) {
     num_verts = other.num_verts;
     num_faces = other.num_faces;
     num_edges = other.num_edges;
+    angle = other.angle;
 
     verts = new Vert[num_verts];
     faces = new Face[num_faces];

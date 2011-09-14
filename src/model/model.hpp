@@ -29,6 +29,10 @@ class Model {
         Face *faces;
         Edge *edges;
 
+        int angle;
+        friend void rotate_models(int value);
+        void queue_rotation(Model *model);
+
         unsigned int num_verts, num_faces, num_edges;
 };
 #endif
