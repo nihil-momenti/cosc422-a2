@@ -15,6 +15,7 @@ void lights_init() {
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
+    glMateriali(GL_FRONT_AND_BACK, GL_SHININESS, 60);
 
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
