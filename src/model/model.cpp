@@ -2,27 +2,40 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL/glut.h>
 #include <set>
 
 std::set<Model*> rotating_models;
+bool rotating = false;
 
 void rotate_models(int value) {
     for (std::set<Model*>::iterator it = rotating_models.begin(); it != rotating_models.end(); it++) {
         (*it)->angle = ((*it)->angle + 1) % 360;
     }
+    if (rotating) {
+        glutTimerFunc(10, rotate_models, 0);
+    }
+    glutPostRedisplay();
 }
 
-void queue_rotation(Model *model) {
-    rotating_models.insert(model);
+void Model::start_rotation() {
+    rotating_models.insert(this);
+    if (! rotating) {
+        rotating = true;
+        glutTimerFunc(10, rotate_models, 0);
+    }
 }
 
-void deque_rotation(Model *model) {
-    rotating_models.erase(model);
+void Model::stop_rotation() {
+    rotating_models.erase(this);
+    if (rotating_models.size() == 0) {
+        rotating = false;
+    }
 }
 
 void Model::display() {
     glPushMatrix();
-    //glRotated((GLdouble)angle, 0, 1, 0);
+    glRotated(angle, 0.0, 1.0, 0.0);
 
     glBegin(GL_TRIANGLES);
 

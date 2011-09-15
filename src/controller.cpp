@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include <algorithm>
 
+#include "common.hpp"
 #include "view.hpp"
 #include "player.hpp"
 
@@ -99,5 +100,6 @@ void controller_keyboardUpFunc(unsigned char key, int x, int y){
 }
 
 void controller_run() {
+    model.start_rotation();
     glutMainLoop();
 }

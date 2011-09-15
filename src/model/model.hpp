@@ -17,6 +17,8 @@ class Model {
         void operator=(const Model&);
 
         void display();
+        void start_rotation();
+        void stop_rotation();
         void collapse_some_edge();
         void collapse_some_edges();
         void toggle_error_metric();
@@ -31,7 +33,6 @@ class Model {
 
         int angle;
         friend void rotate_models(int value);
-        void queue_rotation(Model *model);
 
         unsigned int num_verts, num_faces, num_edges;
 };
