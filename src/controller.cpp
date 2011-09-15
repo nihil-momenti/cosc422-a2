@@ -18,8 +18,7 @@ void controller_init(int argc, char *argv[]) {
     player_init();
     view_init(argc, argv);
 
-    glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
-    glutIgnoreKeyRepeat(1);
+    glutIgnoreKeyRepeat(GL_TRUE);
 
     glutDisplayFunc(view_display);
     glutReshapeFunc(view_reshape);

@@ -20,7 +20,7 @@ int height = 0,
 
 void view_init(int argc, char *argv[]) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
     glutInitWindowSize(800, 800);
     glutInitWindowPosition(10, 10);
     glutCreateWindow("Assignment 2, Wim Looman");
@@ -29,10 +29,14 @@ void view_init(int argc, char *argv[]) {
     shaders_init();
     lights_init();
 
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClearDepth(1.0f);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClearDepth(1.0);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
 }
 
 void view_reshape(int new_width, int new_height) {
@@ -52,18 +56,13 @@ void view_display() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     player_look();
-    //gluLookAt(0.,0.,3.,0.,0.,0.,0.,1.,0.);
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
-
+    lights_display();
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    glColor3f(0.58,0.27,0.20);
+    glColor4f(0.58, 0.27, 0.20, 1.0);
     model.display();
 
-    glFlush();
     glutSwapBuffers();
 }

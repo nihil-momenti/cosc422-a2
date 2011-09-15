@@ -22,7 +22,7 @@ void deque_rotation(Model *model) {
 
 void Model::display() {
     glPushMatrix();
-    glRotated((GLdouble)angle, 0, 1, 0);
+    //glRotated((GLdouble)angle, 0, 1, 0);
 
     glBegin(GL_TRIANGLES);
 
