@@ -5,7 +5,7 @@ Model::Model() {
     verts = NULL;
     faces = NULL;
     edges = NULL;
-    angle = 0.0;
+    angle = 0;
 }
 
 Model::Model(const Model& other) {

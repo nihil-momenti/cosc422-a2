@@ -17,8 +17,9 @@ static void controller_keyboardUpFunc(unsigned char,int,int);
 void controller_init(int argc, char *argv[]) {
     player_init();
     view_init(argc, argv);
-    mouse_pos = std::pair<double,double>(0,0);
-    left_button_state = GLUT_UP;
+
+    glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
+    glutIgnoreKeyRepeat(1);
 
     glutDisplayFunc(view_display);
     glutReshapeFunc(view_reshape);
@@ -26,6 +27,9 @@ void controller_init(int argc, char *argv[]) {
     glutMotionFunc(controller_mouseMotionFunc);
     glutKeyboardFunc(controller_keyboardFunc);
     glutKeyboardUpFunc(controller_keyboardUpFunc);
+
+    mouse_pos = std::pair<double,double>(0,0);
+    left_button_state = GLUT_UP;
 }
 
 void controller_mouseButtonFunc(int button, int state, int x, int y) {

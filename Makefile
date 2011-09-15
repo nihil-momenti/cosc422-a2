@@ -5,10 +5,10 @@ CPPFLAGS = -Wall -pedantic
 CPPFLAGS += -g
 #CPPFLAGS += -O3
 CPPFLAGS += -MD -MP -MF .dep/$(subst /,-,$@).d
-CPPFLAGS += $(shell pkg-config --cflags gl glu)
+CPPFLAGS += $(shell pkg-config --cflags gl glu glew)
 CPPFLAGS += $(ORIGINAL_FLAGS)
 
-LDFLAGS += $(shell pkg-config --libs gl glu)
+LDFLAGS += $(shell pkg-config --libs gl glu glew)
 
 include cosc_hacks.mk
 

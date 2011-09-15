@@ -1,11 +1,14 @@
 #include "view.hpp"
 
+#include <glew.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 
 #include "common.hpp"
 #include "player.hpp"
+#include "shaders.hpp"
+#include "lights.hpp"
 
 double fov    = 50.0,
        near   = 0.1,
@@ -22,27 +25,14 @@ void view_init(int argc, char *argv[]) {
     glutInitWindowPosition(10, 10);
     glutCreateWindow("Assignment 2, Wim Looman");
 
-    glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
-    glutIgnoreKeyRepeat(1);
+    glewInit();
+    shaders_init();
+    lights_init();
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClearDepth(1.0f);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
-    glEnable(GL_LIGHTING);
-    glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-    glEnable ( GL_COLOR_MATERIAL ) ;
-    float params[4] = {0.0, 0.0, 0.0, 1.0};
-    glLightfv(GL_LIGHT0, GL_AMBIENT, params);
-    params[0] = params[1] = params[2] = 1.0;
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, params);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, params);
-    glEnable(GL_LIGHT0);
-    GLfloat params1[4];
-    params1[0] = params1[1] = params1[2] = 0.0;
-    params1[4] = 1.0;
-    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, params1);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, params1);
 }
 
 void view_reshape(int new_width, int new_height) {
