@@ -9,6 +9,10 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
+GLuint vert_shader,
+       frag_shader,
+       program;
+
 const char *readShader(std::string file) {
     std::ifstream input;
     unsigned int length;
@@ -36,26 +40,29 @@ const char *readShader(std::string file) {
 }
 
 void shaders_init() {
-    GLuint vect_shader = glCreateShader(GL_VERTEX_SHADER);
-    GLuint frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    vert_shader = glCreateShader(GL_VERTEX_SHADER);
+    frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    const char *vect_source = readShader("shaders/phong.vect");
+    const char *vert_source = readShader("shaders/phong.vert");
     const char *frag_source = readShader("shaders/phong.frag");
 
-    glShaderSource(vect_shader, 1, &vect_source, NULL);
+    glShaderSource(vert_shader, 1, &vert_source, NULL);
     glShaderSource(frag_shader, 1, &frag_source, NULL);
 
-    glCompileShader(vect_shader);
+    glCompileShader(vert_shader);
     glCompileShader(frag_shader);
 
-    GLuint program = glCreateProgram();
+    delete[] vert_source;
+    delete[] frag_source;
 
-    glAttachShader(program, vect_shader);
+    program = glCreateProgram();
+
+    glAttachShader(program, vert_shader);
     glAttachShader(program, frag_shader);
 
     glLinkProgram(program);
     glUseProgram(program);
+}
 
-    delete[] vect_source;
-    delete[] frag_source;
+void shaders_display() {
 }
