@@ -11,7 +11,9 @@ Vector Vert::normal() {
         Edge *e = edge;
 
         do {
-            mem_normal = mem_normal + e->face->normal();
+            if (e->face != NULL) {
+                mem_normal = mem_normal + e->face->normal();
+            }
             e = e->pair->prev;
         } while (e != edge);
 
