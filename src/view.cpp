@@ -93,17 +93,19 @@ void view_display() {
         end_time = time_get();
 
         frame_starts[frame_count] = start_time;
-        frame_times[frame_count++] = end_time - start_time;
-        if (frame_count == NUM_FRAMES) {
+        frame_times[frame_count] = end_time - start_time;
+        if (++frame_count == NUM_FRAMES) {
             frame_count = 0;
-            double render_fps = 0.0;
-            double actual_fps = 0.0;
+            double render_time = 0.0;
+            double actual_time = 0.0;
             for (unsigned int i = 0; i < NUM_FRAMES; i++) {
-                render_fps += NUM_FRAMES / frame_times[i];
+                render_time += frame_times[i] / NUM_FRAMES;
             }
             for (unsigned int i = 1; i < NUM_FRAMES; i++) {
-                actual_fps += (NUM_FRAMES - 1) / (frame_starts[i] - frame_starts[i-1]);
+                actual_time += (frame_starts[i] - frame_starts[i-1]) / (NUM_FRAMES - 1);
             }
+            double render_fps = 1 / render_time;
+            double actual_fps = 1 / actual_time;
             std::cout << "Current render FPS: [" << (int)render_fps << "]   \t Current actual FPS: [" << (int)actual_fps << "]" << std::endl;
         }
     }
