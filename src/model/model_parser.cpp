@@ -76,7 +76,7 @@ Model::Model(const std::string filename) {
                 Edge *e1 = &edges[i];
                 do {
                     e1 = e1->prev->pair;
-                } while(e1 != NULL && e1->face != NULL);
+                } while (e1 != NULL && e1->face != NULL);
 
                 if (e1 != NULL) {
                     edges[l].next = e1;
@@ -86,7 +86,7 @@ Model::Model(const std::string filename) {
                 Edge *e2 = &edges[i];
                 do {
                     e2 = e2->next->pair;
-                } while(e2 != NULL && e2->face != NULL);
+                } while (e2 != NULL && e2->face != NULL);
 
                 if (e2 != NULL) {
                     edges[l].prev = e2;
@@ -106,15 +106,24 @@ Model::Model(const std::string filename) {
 
     std::cout << "Found all pairs." << std::endl;
 
+    bool error = false;
     for (unsigned int i = 0; i < num_edges; i++) {
         if (edges[i].vert != NULL && edges[i].pair == NULL) {
             std::cout << "Found edge [" << i << "] without a pair." << std::endl;
+            error = true;
         }
         if (edges[i].pair != NULL && edges[i].prev == NULL) {
             std::cout << "Found edge [" << i << "] without a prev." << std::endl;
+            error = true;
         }
         if (edges[i].pair != NULL && edges[i].next == NULL) {
             std::cout << "Found edge [" << i << "] without a next." << std::endl;
+            error = true;
         }
+    }
+
+    if (error) {
+        std::cout << "Quitting cause model is broken." << std::endl;
+        exit(2);
     }
 }
