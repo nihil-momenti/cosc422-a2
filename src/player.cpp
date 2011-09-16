@@ -1,15 +1,13 @@
 #include "player.hpp"
 
-#include <sys/time.h>
+#include <GL/glut.h>
+#include <math.h>
+#include <iostream>
 #include <algorithm>
 #include <set>
 
-#include <GL/glut.h>
-#include <math.h>
-#include <time.h>
-#include <iostream>
-
 #include "geom.hpp"
+#include "time.hpp"
 
 
 #define PI 3.1415926535897932384626433832795
@@ -22,7 +20,7 @@ static double player_sensitivity,
               player_speed;
 static std::set<Direction> player_moving;
 static bool player_in_motion;
-static timeval player_update_time;
+static double player_last_update;
 
 static void player_update(int value=0);
 static void player_forward(double);
@@ -34,7 +32,7 @@ void player_init() {
     player_lookat = Point(0,0,2);
     player_viewup = Vector(0,1,0);
     player_sensitivity = 1.0;
-    player_speed = 0.000002;
+    player_speed = 0.002;
     player_in_motion = false;
 }
 
@@ -47,7 +45,7 @@ void player_move(Direction direction) {
 
     if (! player_in_motion) {
         player_in_motion = true;
-        gettimeofday(&player_update_time, NULL);
+        player_last_update = time_get();
         player_update();
     }
 }
@@ -56,19 +54,9 @@ void player_stop(Direction direction) {
     player_moving.erase(direction);
 }
 
-double operator-(const timeval &time1, const timeval &time2) {
-    double result = 0.0;
-
-    result += time1.tv_sec * 1000000.0;
-    result += time1.tv_usec;
-    result -= time2.tv_sec * 1000000.0;
-    result -= time2.tv_usec;
-
-    return abs(result);
-}
 void player_update(int value) {
-    timeval update_time;
-    gettimeofday(&update_time, NULL);
+    double update_time;
+    update_time = time_get();
 
     if (player_moving.empty()) {
         player_in_motion = false;
@@ -77,16 +65,16 @@ void player_update(int value) {
 
     for (std::set<Direction>::iterator it = player_moving.begin(); it != player_moving.end(); it++) {
         switch (*it) {
-            case FORWARD:  player_forward( player_speed * (update_time - player_update_time));   break;
-            case BACK:     player_forward(-player_speed * (update_time - player_update_time));  break;
-            case RIGHT:    player_right(   player_speed * (update_time - player_update_time));     break;
-            case LEFT:     player_right(  -player_speed * (update_time - player_update_time));    break;
-            case UP:       player_up(      player_speed * (update_time - player_update_time));        break;
-            case DOWN:     player_up(     -player_speed * (update_time - player_update_time));       break;
+            case FORWARD:  player_forward( player_speed * (update_time - player_last_update));   break;
+            case BACK:     player_forward(-player_speed * (update_time - player_last_update));  break;
+            case RIGHT:    player_right(   player_speed * (update_time - player_last_update));     break;
+            case LEFT:     player_right(  -player_speed * (update_time - player_last_update));    break;
+            case UP:       player_up(      player_speed * (update_time - player_last_update));        break;
+            case DOWN:     player_up(     -player_speed * (update_time - player_last_update));       break;
         }
     }
 
-    player_update_time = update_time;
+    player_last_update = update_time;
     glutTimerFunc(10, player_update, 0);
 }
 
