@@ -1,8 +1,7 @@
 #include "model.hpp"
 
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
+
 #include <set>
 
 std::set<Model*> rotating_models;
