@@ -26,6 +26,6 @@ void lights_init() {
 }
 
 void lights_display() {
-    GLfloat position[4] = {1.0, 1.0, 1.0, 0.0};
+    GLfloat position[4] = {1.0, 1.0, 1.0, 1.0};
     glLightfv(GL_LIGHT0, GL_POSITION, position);
 }
