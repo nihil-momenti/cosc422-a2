@@ -107,11 +107,14 @@ Model::Model(const std::string filename) {
     std::cout << "Found all pairs." << std::endl;
 
     for (unsigned int i = 0; i < num_edges; i++) {
+        if (edges[i].vert != NULL && edges[i].pair == NULL) {
+            std::cout << "Found edge [" << i << "] without a pair." << std::endl;
+        }
         if (edges[i].pair != NULL && edges[i].prev == NULL) {
-            //std::cout << "Found edge [" << i << "] without a prev." << std::endl;
+            std::cout << "Found edge [" << i << "] without a prev." << std::endl;
         }
         if (edges[i].pair != NULL && edges[i].next == NULL) {
-            //std::cout << "Found edge [" << i << "] without a next." << std::endl;
+            std::cout << "Found edge [" << i << "] without a next." << std::endl;
         }
     }
 }
