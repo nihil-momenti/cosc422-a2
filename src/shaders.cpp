@@ -61,8 +61,8 @@ void shaders_init() {
     vert_shader = glCreateShader(GL_VERTEX_SHADER);
     frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    const char *vert_source = readShader("shaders/twist.vert");
-    const char *frag_source = readShader("shaders/phong.frag");
+    const char *vert_source = readShader("shaders/three-tone.vert");
+    const char *frag_source = readShader("shaders/three-tone.frag");
 
     glShaderSource(vert_shader, 1, &vert_source, NULL);
     glShaderSource(frag_shader, 1, &frag_source, NULL);
