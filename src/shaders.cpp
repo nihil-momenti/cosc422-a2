@@ -37,11 +37,31 @@ const char *readShader(std::string file) {
     return buffer;
 }
 
+void printShaderInfo(GLuint shader) {
+    int length;
+    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+    char *infoLog = new char[length];
+
+    glGetShaderInfoLog(shader, length, NULL, infoLog);
+
+    std::cout << "Shader info log:" << std::endl << infoLog << std::endl << std::endl;
+}
+
+void printProgramInfo(GLuint program) {
+    int length;
+    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+    char *infoLog = new char[length];
+
+    glGetProgramInfoLog(program, length, NULL, infoLog);
+
+    std::cout << "Program info log:" << std::endl << infoLog << std::endl << std::endl;
+}
+
 void shaders_init() {
     vert_shader = glCreateShader(GL_VERTEX_SHADER);
     frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    const char *vert_source = readShader("shaders/phong.vert");
+    const char *vert_source = readShader("shaders/twist.vert");
     const char *frag_source = readShader("shaders/phong.frag");
 
     glShaderSource(vert_shader, 1, &vert_source, NULL);
@@ -49,6 +69,9 @@ void shaders_init() {
 
     glCompileShader(vert_shader);
     glCompileShader(frag_shader);
+
+    printShaderInfo(vert_shader);
+    printShaderInfo(frag_shader);
 
     delete[] vert_source;
     delete[] frag_source;
@@ -60,6 +83,8 @@ void shaders_init() {
 
     glLinkProgram(program);
     glUseProgram(program);
+
+    printProgramInfo(program);
 }
 
 void shaders_display() {
