@@ -57,9 +57,16 @@ void view_display() {
 
     lights_display();
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
+    glPolygonMode(GL_FRONT, GL_FILL);
+    glDepthFunc(GL_LESS);
+    glCullFace(GL_BACK);
     glColor4f(0.58, 0.27, 0.20, 1.0);
+    model.display();
+
+    glPolygonMode(GL_BACK, GL_LINE);
+    glDepthFunc(GL_LEQUAL);
+    glCullFace(GL_FRONT);
+    glColor4f(0.0, 0.0, 0.0, 1.0);
     model.display();
 
     glutSwapBuffers();
