@@ -79,12 +79,13 @@ void controller_mouseMotionFunc(int x, int y) {
 
 void controller_keyboardFunc(unsigned char key, int x, int y){
     switch(key) {
-        case 'a': player_move(LEFT);     break;
-        case 'w': player_move(FORWARD);  break;
-        case 's': player_move(BACK);     break;
-        case 'd': player_move(RIGHT);    break;
-        case ' ': player_move(UP);       break;
-        case 'z': player_move(DOWN);     break;
+        case 'a': player_move(LEFT);        break;
+        case 'w': player_move(FORWARD);     break;
+        case 's': player_move(BACK);        break;
+        case 'd': player_move(RIGHT);       break;
+        case ' ': player_move(UP);          break;
+        case 'z': player_move(DOWN);        break;
+        case 'q': model.toggle_rotation();  break;
     }
 }
 
@@ -100,6 +101,5 @@ void controller_keyboardUpFunc(unsigned char key, int x, int y){
 }
 
 void controller_run() {
-    model.start_rotation();
     glutMainLoop();
 }

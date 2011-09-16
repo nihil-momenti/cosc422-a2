@@ -32,6 +32,14 @@ void Model::stop_rotation() {
     }
 }
 
+void Model::toggle_rotation() {
+    if (rotating_models.find(this) == rotating_models.end()) {
+        start_rotation();
+    } else {
+        stop_rotation();
+    }
+}
+
 void Model::display() {
     glPushMatrix();
     glRotated(angle, 0.0, 1.0, 0.0);

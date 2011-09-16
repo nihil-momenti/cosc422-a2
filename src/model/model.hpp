@@ -19,6 +19,7 @@ class Model {
         void display();
         void start_rotation();
         void stop_rotation();
+        void toggle_rotation();
         void collapse_some_edge();
         void collapse_some_edges();
         void toggle_error_metric();
