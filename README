@@ -29,3 +29,5 @@ Other
 
 'Q':
   Toggle rotation of the model.
+'E':
+  Toggle showing the FPS in the console.

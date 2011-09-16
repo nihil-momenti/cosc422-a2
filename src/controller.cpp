@@ -85,7 +85,9 @@ void controller_keyboardFunc(unsigned char key, int x, int y){
         case 'd': player_move(RIGHT);       break;
         case ' ': player_move(UP);          break;
         case 'z': player_move(DOWN);        break;
+
         case 'q': model.toggle_rotation();  break;
+        case 'e': view_toggle_fps();        break;
     }
 }
 

@@ -2,21 +2,23 @@
 
 #ifdef WIN32
 
-BOOL time_high_res;
+BOOL time_high_res = false;
 LARGE_INTEGER time_freq;
 LARGE_INTEGER time_count;
 
 double time_get() {
     if (time_high_res) {
         QueryPerformanceCount(&time_count);
-        return (time_count * 1.0) / time_freq * 1000000.0;
+        return (time_count * 1.0) / time_freq;
     } else {
-        return GetTickCount() * 1000.0;
+        return GetTickCount() / 1000.0;
     }
 }
 
 void time_init() {
-    high_res = QueryPerformanceFrequency(&freq);
+    if (! time_high_res) {
+        time_high_res = QueryPerformanceFrequency(&time_freq);
+    }
 }
 
 #else
@@ -25,7 +27,7 @@ void time_init() {
 double time_get() {
     timeval time;
     gettimeofday(&time, NULL);
-    return time.tv_sec * 1000000.0 + time.tv_usec;
+    return time.tv_sec + time.tv_usec / 1000000.0;
 }
 
 void time_init() {

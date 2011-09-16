@@ -7,6 +7,7 @@
 #include "player.hpp"
 #include "shaders.hpp"
 #include "lights.hpp"
+#include "time.hpp"
 
 double fov    = 50.0,
        near   = 0.1,
@@ -15,6 +16,13 @@ double fov    = 50.0,
 
 int height = 0,
     width = 0;
+
+static bool view_show_fps = false;
+
+static const unsigned int NUM_FRAMES = 5;
+static double frame_times[NUM_FRAMES];
+static double frame_starts[NUM_FRAMES];
+static unsigned int frame_count;
 
 void view_init(int argc, char *argv[]) {
     glutInit(&argc, argv);
@@ -44,7 +52,17 @@ void view_reshape(int new_width, int new_height) {
     aspect = new_width / (double)new_height;
 }
 
+void view_toggle_fps() {
+    view_show_fps = !view_show_fps;
+}
+
 void view_display() {
+    double start_time, end_time;
+
+    if (view_show_fps) {
+        start_time = time_get();
+    }
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
     glMatrixMode(GL_PROJECTION);
@@ -70,4 +88,23 @@ void view_display() {
     model.display();
 
     glutSwapBuffers();
+
+    if (view_show_fps) {
+        end_time = time_get();
+
+        frame_starts[frame_count] = start_time;
+        frame_times[frame_count++] = end_time - start_time;
+        if (frame_count == NUM_FRAMES) {
+            frame_count = 0;
+            double render_fps = 0.0;
+            double actual_fps = 0.0;
+            for (unsigned int i = 0; i < NUM_FRAMES; i++) {
+                render_fps += NUM_FRAMES / frame_times[i];
+            }
+            for (unsigned int i = 1; i < NUM_FRAMES; i++) {
+                actual_fps += (NUM_FRAMES - 1) / (frame_starts[i] - frame_starts[i-1]);
+            }
+            std::cout << "Current render FPS: [" << (int)render_fps << "]   \t Current actual FPS: [" << (int)actual_fps << "]" << std::endl;
+        }
+    }
 }
