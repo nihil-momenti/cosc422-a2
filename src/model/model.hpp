@@ -26,6 +26,7 @@ class Model {
         unsigned int current_faces();
         void calculate_normals();
         void toggle_normal_map_display();
+        void gl_init();
 
     private:
         Vert *verts;
@@ -36,5 +37,6 @@ class Model {
         friend void rotate_models(int value);
 
         unsigned int num_verts, num_faces, num_edges;
+        unsigned int display_list;
 };
 #endif

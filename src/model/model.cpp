@@ -40,10 +40,10 @@ void Model::toggle_rotation() {
     }
 }
 
-void Model::display() {
-    glPushMatrix();
-    glRotated(angle, 0.0, 1.0, 0.0);
+void Model::gl_init() {
+    display_list = glGenLists(1);
 
+    glNewList(display_list, GL_COMPILE);
     glBegin(GL_TRIANGLES);
 
     for (unsigned int i = 0; i < num_faces; i++) {
@@ -51,6 +51,14 @@ void Model::display() {
     }
 
     glEnd();
+    glEndList();
+}
+
+void Model::display() {
+    glPushMatrix();
+    glRotated(angle, 0.0, 1.0, 0.0);
+
+    glCallList(display_list);
 
     glPopMatrix();
 }

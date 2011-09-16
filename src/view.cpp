@@ -34,6 +34,7 @@ void view_init(int argc, char *argv[]) {
     glewInit();
     shaders_init();
     lights_init();
+    model.gl_init();
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClearDepth(1.0);
