@@ -15,7 +15,7 @@ static void controller_mouseMotionFunc(int,int);
 static void controller_keyboardFunc(unsigned char,int,int);
 static void controller_keyboardUpFunc(unsigned char,int,int);
 
-void controller_init(int argc, char *argv[]) {
+void controller_init(int argc, char *argv[], bool dvorak) {
     player_init();
     view_init(argc, argv);
 
@@ -25,8 +25,13 @@ void controller_init(int argc, char *argv[]) {
     glutReshapeFunc(view_reshape);
     glutMouseFunc(controller_mouseButtonFunc);
     glutMotionFunc(controller_mouseMotionFunc);
-    glutKeyboardFunc(controller_keyboardFunc);
-    glutKeyboardUpFunc(controller_keyboardUpFunc);
+    if (dvorak) {
+        glutKeyboardFunc(controller_keyboardFunc_dvorak);
+        glutKeyboardUpFunc(controller_keyboardUpFunc_dvorak);
+    } else {
+        glutKeyboardFunc(controller_keyboardFunc);
+        glutKeyboardUpFunc(controller_keyboardUpFunc);
+    }
 
     mouse_pos = std::pair<double,double>(0,0);
     left_button_state = GLUT_UP;

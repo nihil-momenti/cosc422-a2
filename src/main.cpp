@@ -12,15 +12,18 @@ Model model;
 
 int main(int argc, char** argv)
 {
-    std::string model_file;
+    std::string model_file = "models/horse";
+    bool dvorak = false;
 
-    if (argc > 1) {
-        model_file = std::string(argv[1]);
-    } else {
-        model_file = "models/camel.off";
+    for (unsigned int i = 1; i < argc; i++) {
+        if (strncmp(argv[1], "--dvorak") == 0) {
+            dvorak = true;
+        } else {
+            model_file = std::string(argv[i]);
+        }
     }
 
     model = Model(model_file);
-    controller_init(argc, argv);
+    controller_init(argc, argv, dvorak);
     controller_run();
 }
