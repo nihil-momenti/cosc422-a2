@@ -3,6 +3,7 @@
 #include "common.hpp"
 #include "view.hpp"
 #include "player.hpp"
+#include "shaders.hpp"
 
 void controller_keyboardFunc(unsigned char key, int x, int y){
     switch(key) {
@@ -15,6 +16,7 @@ void controller_keyboardFunc(unsigned char key, int x, int y){
 
         case 'q': model.toggle_rotation();  break;
         case 'e': view_toggle_fps();        break;
+        case 'r': shaders_next();           break;
     }
 }
 
@@ -40,6 +42,7 @@ void controller_keyboardFunc_dvorak(unsigned char key, int x, int y){
 
         case ';': model.toggle_rotation();  break;
         case '.': view_toggle_fps();        break;
+        case 'p': shaders_next();           break;
     }
 }
 

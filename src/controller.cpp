@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "view.hpp"
+#include "shaders.hpp"
 #include "player.hpp"
 
 extern void controller_mouseButtonFunc(int,int,int,int);
@@ -16,6 +17,10 @@ extern void controller_keyboardUpFunc_dvorak(unsigned char,int,int);
 void controller_init(int argc, char *argv[], bool dvorak) {
     player_init();
     view_init(argc, argv);
+
+    shaders_init_program("shaders/three-tone.vert", "shaders/three-tone.frag");
+    shaders_init_program("shaders/phong.vert", "shaders/phong.frag");
+    shaders_next();
 
     glutIgnoreKeyRepeat(GL_TRUE);
 

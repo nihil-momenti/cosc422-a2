@@ -1,5 +1,6 @@
 #include "shaders.hpp"
 
+#include <vector>
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
@@ -7,85 +8,85 @@
 #include <glew.h>
 #include <GL/glut.h>
 
-GLuint vert_shader,
-       frag_shader,
-       program;
+static std::vector<GLuint> programs;
+static unsigned int current_program;
 
-const char *readShader(std::string file) {
+static unsigned int measure_file(std::ifstream &file) {
+    file.seekg(0, std::ios::end);
+    unsigned int length = file.tellg();
+    file.seekg(0, std::ios::beg);
+    return length;
+}
+
+static char * read_shader(const std::string &file) {
     std::ifstream input;
-    unsigned int length;
-    char *buffer;
 
     input.open(file.c_str());
     if (input.fail()) {
-        std::cout << "Error opening shader file" << std::endl;
+        std::cout << "Error opening shader file [" << file << "]" << std::endl;
         exit(1);
     }
 
-    input.seekg(0, std::ios::end);
-    length = input.tellg();
-    input.seekg(0, std::ios::beg);
+    unsigned int length = measure_file(input);
+    char *buffer = new char[length + 1];
 
-    buffer = new char[length + 1];
     input.read(buffer, length);
     input.close();
-
-    buffer[input.gcount()] = '\0';
-
-    std::cout << "Shader read successfully" << std::endl;
+    buffer[length] = '\0';
 
     return buffer;
 }
 
-void printShaderInfo(GLuint shader) {
+static void printShaderInfo(GLuint shader) {
     int length;
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
     char *infoLog = new char[length];
 
     glGetShaderInfoLog(shader, length, NULL, infoLog);
 
-    std::cout << "Shader info log:" << std::endl << infoLog << std::endl << std::endl;
+    std::cout << "Shader info log:" << infoLog << std::endl;
 }
 
-void printProgramInfo(GLuint program) {
+static void printProgramInfo(GLuint program) {
     int length;
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
     char *infoLog = new char[length];
 
     glGetProgramInfoLog(program, length, NULL, infoLog);
 
-    std::cout << "Program info log:" << std::endl << infoLog << std::endl << std::endl;
+    std::cout << "Program info log:" << infoLog << std::endl;
 }
 
-void shaders_init() {
-    vert_shader = glCreateShader(GL_VERTEX_SHADER);
-    frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
+static GLuint shaders_init_shader(const std::string path, GLenum shader_type) {
+    GLuint shader = glCreateShader(shader_type);
 
-    const char *vert_source = readShader("shaders/three-tone.vert");
-    const char *frag_source = readShader("shaders/three-tone.frag");
+    const char *source = read_shader(path);
+    glShaderSource(shader, 1, &source, NULL);
+    delete[] source;
 
-    glShaderSource(vert_shader, 1, &vert_source, NULL);
-    glShaderSource(frag_shader, 1, &frag_source, NULL);
+    glCompileShader(shader);
+    printShaderInfo(shader);
 
-    glCompileShader(vert_shader);
-    glCompileShader(frag_shader);
+    return shader;
+}
 
-    printShaderInfo(vert_shader);
-    printShaderInfo(frag_shader);
+void shaders_init_program(const std::string &vert_path, const std::string &frag_path) {
+    GLuint vert_shader = shaders_init_shader(vert_path, GL_VERTEX_SHADER);
+    GLuint frag_shader = shaders_init_shader(frag_path, GL_FRAGMENT_SHADER);
 
-    delete[] vert_source;
-    delete[] frag_source;
-
-    program = glCreateProgram();
+    GLuint program = glCreateProgram();
 
     glAttachShader(program, vert_shader);
     glAttachShader(program, frag_shader);
 
     glLinkProgram(program);
-    glUseProgram(program);
-
     printProgramInfo(program);
+
+    programs.push_back(program);
 }
 
-void shaders_display() {
+void shaders_next() {
+    current_program = (current_program + 1) % programs.size();
+    glUseProgram(programs[current_program]);
+    glutPostRedisplay();
 }

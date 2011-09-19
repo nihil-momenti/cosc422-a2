@@ -32,7 +32,6 @@ void view_init(int argc, char *argv[]) {
     glutCreateWindow("Assignment 2, Wim Looman");
 
     glewInit();
-    shaders_init();
     lights_init();
     model.gl_init();
 
