@@ -12,7 +12,7 @@ Model model;
 
 int main(int argc, char** argv)
 {
-    std::string model_file = "models/horse";
+    std::string model_file = "models/horse.off";
     bool dvorak = false;
 
     for (int i = 1; i < argc; i++) {
