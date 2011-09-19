@@ -15,8 +15,8 @@ int main(int argc, char** argv)
     std::string model_file = "models/horse";
     bool dvorak = false;
 
-    for (unsigned int i = 1; i < argc; i++) {
-        if (strncmp(argv[1], "--dvorak") == 0) {
+    for (int i = 1; i < argc; i++) {
+        if (strncmp(argv[1], "--dvorak", 8) == 0) {
             dvorak = true;
         } else {
             model_file = std::string(argv[i]);

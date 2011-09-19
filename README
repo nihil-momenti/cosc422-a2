@@ -4,9 +4,10 @@ Building and Running
 Building should be as simple as just running `make` in the main folder.  This
 will create the program `basic` which should be called
 
-    ./basic [path to OFF file]
+    ./basic [flags] [path to OFF file]
 
 e.g. `./basic models/horse.off` to use the model that the report was based off.
+By default the horse model will be used.
 
 Controls
 ========
@@ -31,3 +32,19 @@ Other
   Toggle rotation of the model.
 'E':
   Toggle showing the FPS in the console.
+
+Dvorak Users
+============
+
+     Note: this is designed for programmer's Dvorak, normal dvorak users will
+     notice the 'Z' and 'Q' remappings are backwards.
+
+If you use Dvorak you can pass the `--dvorak` flag to change the controls as
+follows:
+
+    'W' -> ','
+    'S' -> 'O'
+    'D' -> 'E'
+    'Z' -> '''
+    'Q' -> ';'
+    'E' -> '.'
