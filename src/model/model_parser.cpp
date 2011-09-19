@@ -14,7 +14,7 @@ Model::Model(const std::string filename) {
         exit(1);
     }
 
-    fp_in.ignore(INT_MAX, '\n');                //ignore first line
+    fp_in.ignore(INT_MAX, '\n');
     fp_in >> num_verts >> num_faces >> num_edges;
 
     verts = new Vert[num_verts];
@@ -36,7 +36,7 @@ Model::Model(const std::string filename) {
         fp_in >> num >> k[0] >> k[1] >> k[2];
 
         if (num != 3) {
-            std::cout << "ERROR: Polygon with index " << i  << " is not a triangle." << std::endl;  //Not a triangle!!
+            std::cout << "ERROR: Polygon with index " << i  << " is not a triangle." << std::endl;
             exit(1);
         }
 
