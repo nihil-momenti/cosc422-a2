@@ -52,7 +52,7 @@ VertSet Vert::two_ring() {
 
 VertSet intersection(const VertSet &set1, const VertSet &set2) {
     VertSet result = VertSet();
-    for (VertSet_IT it = set1.begin(); it != set1.end(); it++) {
+    for (VertSet_const_IT it = set1.begin(); it != set1.end(); it++) {
         if (set2.find(*it) != set2.end()) {
             result.insert(*it);
         }

@@ -11,6 +11,7 @@ class Face;
 
 typedef std::set<Vert*> VertSet;
 typedef VertSet::iterator VertSet_IT;
+typedef VertSet::const_iterator VertSet_const_IT;
 
 class Edge {
     public:
