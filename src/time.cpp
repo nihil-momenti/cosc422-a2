@@ -1,4 +1,5 @@
 #include "time.hpp"
+#include <stdlib.h>
 
 #ifdef WIN32
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <string.h>
 #include <GL/glut.h>
 
 #include "common.hpp"
