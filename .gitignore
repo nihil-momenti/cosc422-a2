@@ -1,3 +1,10 @@
 /build
 /.dep
 /basic
+/project.exe
+/project.ilk
+/project.pdb
+/windows/project/project.suo
+/windows/project/project/Debug/
+/windows/project/project/Release/
+/windows/project/project/project.vcproj.*.user
