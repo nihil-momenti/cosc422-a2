@@ -2,14 +2,16 @@
 
 #ifdef WIN32
 
+#include <windows.h>
+
 BOOL time_high_res = false;
-LARGE_INTEGER time_freq;
-LARGE_INTEGER time_count;
+double time_freq;
 
 double time_get() {
     if (time_high_res) {
-        QueryPerformanceCount(&time_count);
-        return (time_count * 1.0) / time_freq;
+        LARGE_INTEGER time_count;
+        QueryPerformanceCounter(&time_count);
+        return time_count.QuadPart / time_freq;
     } else {
         return GetTickCount() / 1000.0;
     }
@@ -17,13 +19,16 @@ double time_get() {
 
 void time_init() {
     if (! time_high_res) {
-        time_high_res = QueryPerformanceFrequency(&time_freq);
+        LARGE_INTEGER time_freq_li;
+        time_high_res = QueryPerformanceFrequency(&time_freq_li);
+        time_freq = time_freq_li.QuadPart;
     }
 }
 
 #else
 
 #include <sys/time.h>
+
 double time_get() {
     timeval time;
     gettimeofday(&time, NULL);
