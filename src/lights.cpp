@@ -1,6 +1,6 @@
 #include "lights.hpp"
 
-#include <GL/gl.h>
+#include <GL/glut.h>
 
 void lights_init() {
     GLfloat ambient[4] = {0.0, 0.0, 0.0, 1.0};
