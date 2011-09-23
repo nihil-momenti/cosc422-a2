@@ -4,6 +4,8 @@
 
 #include <set>
 
+#include "../texture.hpp"
+
 std::set<Model*> rotating_models;
 bool rotating = false;
 
@@ -44,6 +46,7 @@ void Model::gl_init() {
     display_list = glGenLists(1);
 
     glNewList(display_list, GL_COMPILE);
+    glBindTexture(GL_TEXTURE_3D, tex_id);
     glBegin(GL_TRIANGLES);
 
     for (unsigned int i = 0; i < num_faces; i++) {

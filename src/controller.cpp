@@ -20,7 +20,7 @@ void controller_init(int argc, char *argv[], bool dvorak) {
 
     shaders_init_program("shaders/three-tone.vert", "shaders/three-tone.frag");
     shaders_init_program("shaders/phong.vert", "shaders/phong.frag");
-    shaders_next();
+//    shaders_next();
 
     glutIgnoreKeyRepeat(GL_TRUE);
 

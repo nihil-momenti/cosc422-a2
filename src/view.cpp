@@ -8,6 +8,7 @@
 #include "shaders.hpp"
 #include "lights.hpp"
 #include "time.hpp"
+#include "texture.hpp"
 
 double fov    = 50.0,
        near   = 0.1,
@@ -33,6 +34,7 @@ void view_init(int argc, char *argv[]) {
 
     glewInit();
     lights_init();
+    texture_init();
     model.gl_init();
 
     glClearColor(1.0, 1.0, 1.0, 1.0);

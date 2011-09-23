@@ -26,8 +26,10 @@ void Face::display() {
     do {
         Point  point =  e->vert->point;
         Vector normal = e->vert->normal();
+        Vector dir = e->vert->point - edge->vert->point;
 
         glNormal3d(normal.dx, normal.dy, normal.dz);
+        glTexCoord3d(0.5+10*dir.dx, 0.5+10*dir.dy, 0.0);
         glVertex3d(point.x, point.y, point.z);
 
         e = e->next;
