@@ -1,12 +1,12 @@
 #include "shaders.hpp"
 
+#include <glew.h>
+#include <GL/glut.h>
+
 #include <vector>
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
-
-#include <glew.h>
-#include <GL/glut.h>
 
 static std::vector<GLuint> programs;
 static unsigned int current_program;
@@ -70,7 +70,7 @@ static GLuint shaders_init_shader(const std::string path, GLenum shader_type) {
     return shader;
 }
 
-void shaders_init_program(const std::string &vert_path, const std::string &frag_path) {
+GLuint shaders_init_program(const std::string &vert_path, const std::string &frag_path) {
     GLuint vert_shader = shaders_init_shader(vert_path, GL_VERTEX_SHADER);
     GLuint frag_shader = shaders_init_shader(frag_path, GL_FRAGMENT_SHADER);
 
@@ -83,6 +83,7 @@ void shaders_init_program(const std::string &vert_path, const std::string &frag_
     printProgramInfo(program);
 
     programs.push_back(program);
+    return program;
 }
 
 void shaders_next() {

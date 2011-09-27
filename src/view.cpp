@@ -25,6 +25,8 @@ static double frame_times[NUM_FRAMES];
 static double frame_starts[NUM_FRAMES];
 static unsigned int frame_count;
 
+GLUquadric *q;
+
 void view_init(int argc, char *argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
@@ -33,8 +35,14 @@ void view_init(int argc, char *argv[]) {
     glutCreateWindow("Assignment 2, Wim Looman");
 
     glewInit();
+
+    GLuint pencil_program = shaders_init_program("shaders/pencil.vert", "shaders/pencil.frag");
+    shaders_init_program("shaders/three-tone.vert", "shaders/three-tone.frag");
+    shaders_init_program("shaders/phong.vert", "shaders/phong.frag");
+    shaders_next();
+
     lights_init();
-    texture_init();
+    texture_init(pencil_program);
     model.gl_init();
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -45,6 +53,9 @@ void view_init(int argc, char *argv[]) {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
+
+    q = gluNewQuadric();
+    gluQuadricTexture(q, GL_TRUE);
 }
 
 void view_reshape(int new_width, int new_height) {
@@ -58,12 +69,40 @@ void view_toggle_fps() {
     view_show_fps = !view_show_fps;
 }
 
+static void display_sphere() {
+    glPushMatrix();
+
+    glRotated(90.0, 1.0, 0.0, 0.0);
+    glTranslated(1.0, -0.5, -1.0);
+
+    gluSphere(q,0.4,1000,1000);
+
+    glPopMatrix();
+}
+
+static void display_fps(double start_time, double end_time) {
+    frame_starts[frame_count] = start_time;
+    frame_times[frame_count] = end_time - start_time;
+    if (++frame_count == NUM_FRAMES) {
+        frame_count = 0;
+        double render_time = 0.0;
+        double actual_time = 0.0;
+        for (unsigned int i = 0; i < NUM_FRAMES; i++) {
+            render_time += frame_times[i] / NUM_FRAMES;
+        }
+        for (unsigned int i = 1; i < NUM_FRAMES; i++) {
+            actual_time += (frame_starts[i] - frame_starts[i-1]) / (NUM_FRAMES - 1);
+        }
+        double render_fps = 1 / render_time;
+        double actual_fps = 1 / actual_time;
+        std::cout << "Current render FPS: [" << (int)render_fps << "]   \t Current actual FPS: [" << (int)actual_fps << "]" << std::endl;
+    }
+}
+
 void view_display() {
     double start_time, end_time;
 
-    if (view_show_fps) {
-        start_time = time_get();
-    }
+    if (view_show_fps) { start_time = time_get(); }
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 
@@ -81,34 +120,21 @@ void view_display() {
     glDepthFunc(GL_LESS);
     glCullFace(GL_BACK);
     glColor4f(0.58, 0.27, 0.20, 1.0);
+
+    display_sphere();
     model.display();
 
     glPolygonMode(GL_BACK, GL_LINE);
     glDepthFunc(GL_LEQUAL);
     glCullFace(GL_FRONT);
     glColor4f(0.0, 0.0, 0.0, 1.0);
+
     model.display();
 
     glutSwapBuffers();
 
     if (view_show_fps) {
         end_time = time_get();
-
-        frame_starts[frame_count] = start_time;
-        frame_times[frame_count] = end_time - start_time;
-        if (++frame_count == NUM_FRAMES) {
-            frame_count = 0;
-            double render_time = 0.0;
-            double actual_time = 0.0;
-            for (unsigned int i = 0; i < NUM_FRAMES; i++) {
-                render_time += frame_times[i] / NUM_FRAMES;
-            }
-            for (unsigned int i = 1; i < NUM_FRAMES; i++) {
-                actual_time += (frame_starts[i] - frame_starts[i-1]) / (NUM_FRAMES - 1);
-            }
-            double render_fps = 1 / render_time;
-            double actual_fps = 1 / actual_time;
-            std::cout << "Current render FPS: [" << (int)render_fps << "]   \t Current actual FPS: [" << (int)actual_fps << "]" << std::endl;
-        }
+        display_fps(start_time, end_time);
     }
 }
