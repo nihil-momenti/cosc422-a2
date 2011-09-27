@@ -25,8 +25,8 @@ static void fill_tex(unsigned char *tex) {
     for (unsigned int i = 0; i < TEX_LAYERS+2; i++) {
         for (unsigned int j = 0; j < TEX_SIZE+2; j++) {
             for (unsigned int k = 0; k < TEX_SIZE+2; k++) {
-                int val = (int) pow(2, (i/5-1));
-                if (i/5 <= 1 || ((j + TEX_SIZE / 2) % val) == 0 || ((k + TEX_SIZE / 2) % val) == 0) {
+                int val = (int) pow(2, ((i-1)/7));
+                if (i/7 <= 1 || ((j + 1) % val) == 0 || ((k + 1) % val) == 0) {
                     BLACK();
                 } else {
                     WHITE();
@@ -61,8 +61,8 @@ void texture_init(GLuint shader_program) {
 
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
