@@ -1,10 +1,10 @@
 #include "model.hpp"
 
+#include "../texture.hpp"
+
 #include <GL/glut.h>
 
 #include <set>
-
-#include "../texture.hpp"
 
 std::set<Model*> rotating_models;
 bool rotating = false;

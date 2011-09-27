@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\texture.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\time.cpp"
 				>
 			</File>
@@ -269,6 +273,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\shaders.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\texture.hpp"
 				>
 			</File>
 			<File

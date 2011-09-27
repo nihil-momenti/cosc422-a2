@@ -25,7 +25,7 @@ static void fill_tex(unsigned char *tex) {
     for (unsigned int i = 0; i < TEX_LAYERS+2; i++) {
         for (unsigned int j = 0; j < TEX_SIZE+2; j++) {
             for (unsigned int k = 0; k < TEX_SIZE+2; k++) {
-                int val = (int) pow(2, ((i-1)/7));
+                int val = (int)(double)pow(2.0, (int)((i-1)/7));
                 if (i/7 <= 1 || ((j + 1) % val) == 0 || ((k + 1) % val) == 0) {
                     BLACK();
                 } else {
