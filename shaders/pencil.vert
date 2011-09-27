@@ -1,9 +1,10 @@
-void main() {
-    vec3 N = normalize(gl_NormalMatrix * gl_Normal);
-    vec3 ecv = (gl_ModelViewMatrix * gl_Vertex).xyz;
-    vec3 L = normalize(gl_LightSource[0].position.xyz - ecv);
+varying vec3 normal, lightDir;
 
-    gl_TexCoord[0].p = max(dot(N,L), 0.0);
+void main() {
+    normal = normalize(gl_NormalMatrix * gl_Normal);
+    lightDir = vec3(gl_LightSource[0].position - gl_ModelViewMatrix * gl_Vertex);
+
+    gl_TexCoord[0] = gl_MultiTexCoord0;
 
     gl_Position = ftransform();
 }

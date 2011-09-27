@@ -39,7 +39,7 @@ void view_init(int argc, char *argv[]) {
     GLuint pencil_program = shaders_init_program("shaders/pencil.vert", "shaders/pencil.frag");
     shaders_init_program("shaders/three-tone.vert", "shaders/three-tone.frag");
     shaders_init_program("shaders/phong.vert", "shaders/phong.frag");
-    shaders_next();
+    //shaders_next();
 
     lights_init();
     texture_init(pencil_program);
@@ -73,7 +73,7 @@ static void display_sphere() {
     glPushMatrix();
 
     glRotated(90.0, 1.0, 0.0, 0.0);
-    glTranslated(1.0, -0.5, -1.0);
+    glTranslated(1.2, -0.4, -1.3);
 
     gluSphere(q,0.4,1000,1000);
 
