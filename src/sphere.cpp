@@ -25,8 +25,19 @@ void normalize(GLfloat *a) {
 
 void drawtri(GLfloat *a, GLfloat *b, GLfloat *c, int div, float r) {
     if (div<=0) {
+        glMultiTexCoord2f(GL_TEXTURE0, a[0], a[1]);
+        glMultiTexCoord2f(GL_TEXTURE1, a[1], a[2]);
+        glMultiTexCoord2f(GL_TEXTURE2, a[2], a[0]);
         glNormal3fv(a); glVertex3f(a[0]*r, a[1]*r, a[2]*r);
+
+        glMultiTexCoord2f(GL_TEXTURE0, b[0], b[1]);
+        glMultiTexCoord2f(GL_TEXTURE1, b[1], b[2]);
+        glMultiTexCoord2f(GL_TEXTURE2, b[2], b[0]);
         glNormal3fv(b); glVertex3f(b[0]*r, b[1]*r, b[2]*r);
+
+        glMultiTexCoord2f(GL_TEXTURE0, c[0], c[1]);
+        glMultiTexCoord2f(GL_TEXTURE1, c[1], c[2]);
+        glMultiTexCoord2f(GL_TEXTURE2, c[2], c[0]);
         glNormal3fv(c); glVertex3f(c[0]*r, c[1]*r, c[2]*r);
     } else {
         GLfloat ab[3], ac[3], bc[3];

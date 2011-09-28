@@ -67,9 +67,9 @@ static void draw_vert_lines(unsigned char *tex, int top_layer) {
 static void fill_tex2(unsigned char *tex) {
     clear_tex(tex);
     for (int i = TEX_LAYERS-1; i >= 0; i--) {
-        for (int j = pow(2.3,(TEX_LAYERS-2)); j >= pow(2.3,i); j--) {
+        for (int j = pow(2.5,(TEX_LAYERS-2)); j >= pow(2.5,i); j--) {
             draw_horiz_lines(tex, i);
-        //    draw_vert_lines(tex, i);
+            //draw_vert_lines(tex, i);
         }
     }
 }
