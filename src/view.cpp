@@ -9,6 +9,7 @@
 #include "lights.hpp"
 #include "time.hpp"
 #include "texture.hpp"
+#include "sphere.hpp"
 
 double fov    = 50.0,
        near   = 0.1,
@@ -25,7 +26,7 @@ static double frame_times[NUM_FRAMES];
 static double frame_starts[NUM_FRAMES];
 static unsigned int frame_count;
 
-GLUquadric *q;
+static unsigned int sphere_list;
 
 void view_init(int argc, char *argv[]) {
     glutInit(&argc, argv);
@@ -44,6 +45,7 @@ void view_init(int argc, char *argv[]) {
     lights_init();
     texture_init(pencil_program);
     model.gl_init();
+    sphere_list = sphere_gl_init(3, 0.5);
 
     glClearColor(1.0, 1.0, 1.0, 1.0);
     glClearDepth(1.0);
@@ -53,9 +55,6 @@ void view_init(int argc, char *argv[]) {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-
-    q = gluNewQuadric();
-    gluQuadricTexture(q, GL_TRUE);
 }
 
 void view_reshape(int new_width, int new_height) {
@@ -67,17 +66,6 @@ void view_reshape(int new_width, int new_height) {
 
 void view_toggle_fps() {
     view_show_fps = !view_show_fps;
-}
-
-static void display_sphere() {
-    glPushMatrix();
-
-    glRotated(90.0, 1.0, 0.0, 0.0);
-    glTranslated(1.2, -0.4, -1.3);
-
-    gluSphere(q,0.4,1000,1000);
-
-    glPopMatrix();
 }
 
 static void display_fps(double start_time, double end_time) {
@@ -121,7 +109,7 @@ void view_display() {
     glCullFace(GL_BACK);
     glColor4f(0.58, 0.27, 0.20, 1.0);
 
-    display_sphere();
+    sphere_display(sphere_list);
     model.display();
 
     glPolygonMode(GL_BACK, GL_LINE);
