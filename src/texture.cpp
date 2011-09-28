@@ -2,31 +2,84 @@
 
 #include <GL/glut.h>
 
+#include <stdlib.h>
 #include <math.h>
 
 #define WHITE() do {\
-            tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 0] = 255;\
-            tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 1] = 255;\
-            tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 2] = 255;\
+            tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 0] = 255;\
+            tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 1] = 255;\
+            tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 2] = 255;\
         } while (false)
 
 #define BLACK() do {\
-            tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 0] = 0;\
-            tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 1] = 0;\
-            tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 2] = 0;\
+            tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 0] = 0;\
+            tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 1] = 0;\
+            tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 2] = 0;\
         } while (false)
 
 GLuint tex_id;
 
 static const unsigned int TEX_SIZE = 512;
-static const unsigned int TEX_LAYERS = 64;
+static const unsigned int TEX_LAYERS = 8;
+
+static void clear_tex(unsigned char *tex) {
+    for (unsigned int i = 0; i < TEX_LAYERS; i++) {
+        for (unsigned int j = 0; j < TEX_SIZE; j++) {
+            for (unsigned int k = 0; k < TEX_SIZE; k++) {
+                tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 0] = 255;
+                tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 1] = 255;
+                tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 2] = 255;
+            }
+        }
+    }
+}
+
+static void draw_horiz_line(unsigned char *tex, int layer, int width) {
+    for (unsigned int row = 0; row < TEX_SIZE; row++) {
+        tex[3*(width + TEX_SIZE * (row + TEX_SIZE * layer)) + 0] = 0;
+        tex[3*(width + TEX_SIZE * (row + TEX_SIZE * layer)) + 1] = 0;
+        tex[3*(width + TEX_SIZE * (row + TEX_SIZE * layer)) + 2] = 0;
+    }
+}
+
+static void draw_vert_line(unsigned char *tex, int layer, int height) {
+    for (unsigned int col = 0; col < TEX_SIZE; col++) {
+        tex[3*(col + TEX_SIZE * (height + TEX_SIZE * layer)) + 0] = 0;
+        tex[3*(col + TEX_SIZE * (height + TEX_SIZE * layer)) + 1] = 0;
+        tex[3*(col + TEX_SIZE * (height + TEX_SIZE * layer)) + 2] = 0;
+    }
+}
+
+static void draw_horiz_lines(unsigned char *tex, int top_layer) {
+    int width = rand() % TEX_SIZE;
+    for (int i = top_layer; i >= 0; i--) {
+        draw_horiz_line(tex, i, width);
+    }
+}
+
+static void draw_vert_lines(unsigned char *tex, int top_layer) {
+    int height = rand() % TEX_SIZE;
+    for (int i = top_layer; i >= 0; i--) {
+        draw_vert_line(tex, i, height);
+    }
+}
+
+static void fill_tex2(unsigned char *tex) {
+    clear_tex(tex);
+    for (int i = TEX_LAYERS-1; i >= 0; i--) {
+        for (int j = pow(2.3,(TEX_LAYERS-2)); j >= pow(2.3,i); j--) {
+            draw_horiz_lines(tex, i);
+        //    draw_vert_lines(tex, i);
+        }
+    }
+}
 
 static void fill_tex(unsigned char *tex) {
-    for (unsigned int i = 0; i < TEX_LAYERS+2; i++) {
-        for (unsigned int j = 0; j < TEX_SIZE+2; j++) {
-            for (unsigned int k = 0; k < TEX_SIZE+2; k++) {
-                int val = (int)(double)pow(2.0, (int)((i-1)/7));
-                if (i/7 <= 1 || ((j + 1) % val) == 0 || ((k + 1) % val) == 0) {
+    for (unsigned int i = 0; i < TEX_LAYERS; i++) {
+        for (unsigned int j = 0; j < TEX_SIZE; j++) {
+            for (unsigned int k = 0; k < TEX_SIZE; k++) {
+                int val = (int)(double)pow(2.0, (int)(i-1));
+                if (i < 1 || ((j + 1) % val) == 0 || ((k + 1) % val) == 0) {
                     BLACK();
                 } else {
                     WHITE();
@@ -49,9 +102,9 @@ static void set_shader_variables(GLuint shader_program) {
 }
 
 void texture_init(GLuint shader_program) {
-    unsigned char *tex= new unsigned char[(TEX_SIZE+2)*(TEX_SIZE+2)*(TEX_LAYERS+2)*3];
+    unsigned char *tex= new unsigned char[(TEX_SIZE)*(TEX_SIZE)*(TEX_LAYERS)*3];
 
-    fill_tex(tex);
+    fill_tex2(tex);
 
     glGenTextures(1, &tex_id);
     glBindTexture(GL_TEXTURE_3D, tex_id);

@@ -74,4 +74,37 @@ inline Vector operator* (double lhs, Vector rhs) {
 inline Vector operator/ (double lhs, Vector rhs) {
     return rhs / lhs;
 }
+
+struct Matrix3 {
+    double values[9];
+
+    Matrix3();
+
+    // Equivalent to the matlab: m3 = vec1 * vec2'
+    Matrix3(const Vector &vec1, const Vector &vec2);
+
+    static Matrix3 identity();
+
+    Matrix3 transpose();
+    Vector col(int num);
+
+    Vector operator* (const Vector &other);
+    Matrix3 operator+ (const Matrix3 &other);
+    Matrix3 operator- (const Matrix3 &other);
+    Matrix3 operator* (double other);
+    Matrix3 operator* (const Matrix3 &other);
+};
+
+inline Matrix3 operator* (double lhs, Matrix3 rhs) {
+    return rhs * lhs;
+}
+
+inline Matrix3 operator/ (Matrix3 lhs, double rhs) {
+    return lhs * (1.0 / rhs);
+}
+
+inline Matrix3 operator/ (double lhs, Matrix3 rhs) {
+    return rhs / lhs;
+}
+
 #endif

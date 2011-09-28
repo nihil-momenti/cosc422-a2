@@ -7,3 +7,7 @@ Edge::Edge() {
     prev = NULL;
     pair = NULL;
 }
+
+Vector Edge::vect() {
+    return pair->vert->point - vert->point;
+}

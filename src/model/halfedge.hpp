@@ -17,6 +17,8 @@ class Edge {
     public:
         Edge();
 
+        Vector vect();
+
         Vert *vert;
         Face *face;
         Edge *next;
@@ -36,19 +38,27 @@ class Vert {
         Edge *edge;
 
     private:
+        void calc_curvature();
         Vector mem_normal;
+        Vector max_curvature_dir,
+               min_curvature_dir;
+        double max_curvature_mag,
+               min_curvature_mag;
 };
 
 class Face {
     public:
         Face();
         Vector normal();
+        double area();
         void display();
 
         Edge *edge;
 
     private:
         Vector mem_normal;
+        double mem_area;
+        void calculate_normal();
 };
 
 VertSet intersection(const VertSet &set1, const VertSet &set2);

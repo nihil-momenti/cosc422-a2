@@ -5,19 +5,33 @@
 Face::Face() {
     edge   = NULL;
     mem_normal = Vector();
+    mem_area = 0.0;
 }
 
-Vector Face::normal() {
-    if (mem_normal != Vector()) {
-        return mem_normal;
-    }
-
+void Face::calculate_normal() {
     Point point1 = edge->vert->point,
           point2 = edge->next->vert->point,
           point3 = edge->prev->vert->point;
 
-    mem_normal = (point2 - point1).cross(point3 - point1).unit();
+    Vector normal = (point2 - point1).cross(point3 - point1);
+    mem_normal = normal.unit();
+    mem_area = normal.length();
+}
+
+Vector Face::normal() {
+    if (mem_normal == Vector()) {
+        calculate_normal();
+    }
+
     return mem_normal;
+}
+
+double Face::area() {
+    if (mem_area == 0.0) {
+        calculate_normal();
+    }
+
+    return mem_area;
 }
 
 void Face::display() {
