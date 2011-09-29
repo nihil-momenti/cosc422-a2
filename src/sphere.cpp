@@ -70,9 +70,33 @@ unsigned int sphere_gl_init(int ndiv, float radius) {
     return sphere_list;
 }
 
+static bool rotating = false;
+static int angle = 0,
+           int_angle = 0;
+
+static void rotate_sphere(int value) {
+    angle = (angle + 1) % 360;
+    int_angle = (int_angle + 3) % 360;
+    if (rotating) {
+        glutTimerFunc(13, rotate_sphere, 0);
+    }
+    glutPostRedisplay();
+}
+
+void sphere_toggle_rotation() {
+    if (rotating) {
+        rotating = false;
+    } else {
+        rotating = true;
+        glutTimerFunc(13, rotate_sphere, 0);
+    }
+}
+
 void sphere_display(unsigned int sphere_list) {
     glPushMatrix();
+    glRotated(angle, 0.0, 1.0, 0.0);
     glTranslated(1.2, -0.4, -1.3);
+    glRotated(int_angle, 0.0, 1.0, 0.0);
 
     glCallList(sphere_list);
 
