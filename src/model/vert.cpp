@@ -1,6 +1,7 @@
 #include "halfedge.hpp"
 
 #include <math.h>
+#include <stdlib.h>
 
 Vert::Vert() {
     point = Point();
