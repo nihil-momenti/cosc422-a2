@@ -2,7 +2,7 @@
 
 #include "halfedge.hpp"
 
-static const double SCALE = 10.0;
+static const double SCALE = 5.0;
 
 Face::Face() {
     edge   = NULL;
