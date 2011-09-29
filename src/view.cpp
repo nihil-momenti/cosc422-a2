@@ -55,6 +55,9 @@ void view_init(int argc, char *argv[]) {
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
+
+    glLineWidth(2.0);
+    glEnable(GL_LINE_SMOOTH);
 }
 
 void view_reshape(int new_width, int new_height) {
@@ -117,6 +120,7 @@ void view_display() {
     glCullFace(GL_FRONT);
     glColor4f(0.0, 0.0, 0.0, 1.0);
 
+    sphere_display(sphere_list);
     model.display();
 
     glutSwapBuffers();
