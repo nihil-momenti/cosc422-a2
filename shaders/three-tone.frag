@@ -8,9 +8,9 @@ void main (void) {
 
     vec4 final_color = gl_FrontMaterial.diffuse;
 
-    if (nDotl < 0.1) {
+    if (nDotl < 0.15) {
         final_color *= 0.6;
-    } else if (nDotl > 0.85) {
+    } else if (nDotl > 0.95) {
         final_color *= 1.2;
     }
 
