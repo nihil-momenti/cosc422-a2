@@ -1,0 +1,39 @@
+\section{Implementation}
+
+  \subsection{Three Tone Shading}
+
+    The three tone shading was simply implemented as a vertex and fragment
+    shader pair.  The vertex shader transforms the normal vector by the normal
+    matrix and records the light direction vector from the current vertex to the
+    0th light source.  The fragment shader then takes the interpolated vectors,
+    re-normalizes them and finds their dot product.  If the result of this is
+    below 0.15 (determined experimentally) the colour used is 0.6 times the
+    materials diffuse colour, if it's above 0.95 (again experimentally
+    determined) then the colour used is 1.2 times the materials diffuse,
+    otherwise the materials diffuse is used unchanged.
+
+  \subsection{Pencil Shading}
+
+    \subsubsection{Texture generation}
+
+      The texture generation was simply implemented as stated.  The inbuilt
+      random function was used to determine which rows to put the lines on.
+      Each layer down the texture there were simply an extra 32 lines times the
+      number of layers passed were added, so the top layer got no lines, the
+      next got 32, the next got 64 + the original 32, the next 96 + the original
+      96, etc.
+
+    \subsubsection{Model Pre-processing}
+
+      The pre-processing of the model was implemented mostly in the
+      \texttt{Vert} class of the half-edge structure.  The lowest level
+      operations were a part of the general geometry library, but the rest of
+      the high level operations were left to be implemented directly in the
+      \texttt{Vert\#calculate\_normals} method as they were not going to be
+      re-used elsewhere.
+
+      The \texttt{Face} class also contained a few parts of the pre-processing
+      for converting the maximum primary curvature found in the Vert class to
+      the required texture co-ordinates.
+
+
