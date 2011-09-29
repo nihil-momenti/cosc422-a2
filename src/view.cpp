@@ -110,7 +110,7 @@ void view_display() {
     glPolygonMode(GL_FRONT, GL_FILL);
     glDepthFunc(GL_LESS);
     glCullFace(GL_BACK);
-    glColor4f(0.58, 0.27, 0.20, 1.0);
+    glColor4f(0.44, 0.31, 0.21, 1.0);
 
     sphere_display(sphere_list);
     model.display();

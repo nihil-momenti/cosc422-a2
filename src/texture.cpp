@@ -5,13 +5,13 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define WHITE() do {\
+#define WHITE(i,j,k) do {\
             tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 0] = 255;\
             tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 1] = 255;\
             tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 2] = 255;\
         } while (false)
 
-#define BLACK() do {\
+#define BLACK(i,j,k) do {\
             tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 0] = 0;\
             tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 1] = 0;\
             tex[3*(k + (TEX_SIZE) * (j + (TEX_SIZE) * i)) + 2] = 0;\
@@ -26,9 +26,7 @@ static void clear_tex(unsigned char *tex) {
     for (unsigned int i = 0; i < TEX_LAYERS; i++) {
         for (unsigned int j = 0; j < TEX_SIZE; j++) {
             for (unsigned int k = 0; k < TEX_SIZE; k++) {
-                tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 0] = 255;
-                tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 1] = 255;
-                tex[3*(k + TEX_SIZE * (j + TEX_SIZE * i)) + 2] = 255;
+                WHITE(i,j,k);
             }
         }
     }
@@ -36,17 +34,13 @@ static void clear_tex(unsigned char *tex) {
 
 static void draw_horiz_line(unsigned char *tex, int layer, int width) {
     for (unsigned int row = 0; row < TEX_SIZE; row++) {
-        tex[3*(width + TEX_SIZE * (row + TEX_SIZE * layer)) + 0] = 0;
-        tex[3*(width + TEX_SIZE * (row + TEX_SIZE * layer)) + 1] = 0;
-        tex[3*(width + TEX_SIZE * (row + TEX_SIZE * layer)) + 2] = 0;
+        BLACK(layer,row,width);
     }
 }
 
 static void draw_vert_line(unsigned char *tex, int layer, int height) {
     for (unsigned int col = 0; col < TEX_SIZE; col++) {
-        tex[3*(col + TEX_SIZE * (height + TEX_SIZE * layer)) + 0] = 0;
-        tex[3*(col + TEX_SIZE * (height + TEX_SIZE * layer)) + 1] = 0;
-        tex[3*(col + TEX_SIZE * (height + TEX_SIZE * layer)) + 2] = 0;
+        BLACK(layer,height,col);
     }
 }
 
@@ -67,9 +61,7 @@ static void draw_vert_lines(unsigned char *tex, int top_layer) {
 static void blacken_bottom(unsigned char *tex) {
     for (unsigned int i = 0; i < TEX_SIZE; i++) {
         for (unsigned int j = 0; j < TEX_SIZE; j++) {
-            tex[3*(j + TEX_SIZE * i) + 0] = 0;
-            tex[3*(j + TEX_SIZE * i) + 1] = 0;
-            tex[3*(j + TEX_SIZE * i) + 2] = 0;
+            BLACK(0,i,j);
         }
     }
 }
@@ -91,9 +83,9 @@ static void fill_tex(unsigned char *tex) {
             for (unsigned int k = 0; k < TEX_SIZE; k++) {
                 int val = (int)(double)pow(2.0, (int)(i-1));
                 if (i < 1 || ((j + 1) % val) == 0 || ((k + 1) % val) == 0) {
-                    BLACK();
+                    BLACK(i,j,k);
                 } else {
-                    WHITE();
+                    WHITE(i,j,k);
                 }
             }
         }
