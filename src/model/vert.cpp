@@ -49,7 +49,9 @@ void Vert::calc_curvature() {
     do {
         Vector tij = ((Matrix3::identity() - Matrix3(normal(), normal())) * e->pair->vect()).unit();
         double kij = 2 * normal().dot(e->pair->vect()) / pow(e->pair->vect().length(),2);
-        double wij = e->face->area() + e->pair->face->area();
+        double wij = 0.0;
+        if (e->face != NULL)       { wij += e->face->area(); }
+        if (e->pair->face != NULL) { wij += e->pair->face->area(); }
         wij_sum += wij;
         m = m + wij * kij * Matrix3(tij, tij);
 

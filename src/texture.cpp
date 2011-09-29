@@ -20,7 +20,7 @@
 GLuint tex_id;
 
 static const unsigned int TEX_SIZE = 512;
-static const unsigned int TEX_LAYERS = 8;
+static const unsigned int TEX_LAYERS = 16;
 
 static void clear_tex(unsigned char *tex) {
     for (unsigned int i = 0; i < TEX_LAYERS; i++) {
@@ -64,14 +64,25 @@ static void draw_vert_lines(unsigned char *tex, int top_layer) {
     }
 }
 
+static void blacken_bottom(unsigned char *tex) {
+    for (unsigned int i = 0; i < TEX_SIZE; i++) {
+        for (unsigned int j = 0; j < TEX_SIZE; j++) {
+            tex[3*(j + TEX_SIZE * i) + 0] = 0;
+            tex[3*(j + TEX_SIZE * i) + 1] = 0;
+            tex[3*(j + TEX_SIZE * i) + 2] = 0;
+        }
+    }
+}
+
 static void fill_tex2(unsigned char *tex) {
     clear_tex(tex);
     for (int i = TEX_LAYERS-1; i >= 0; i--) {
-        for (int j = pow(2.5,(TEX_LAYERS-2)); j >= pow(2.5,i); j--) {
+        for (int j = pow(1.4,(TEX_LAYERS-2)); j >= pow(1.4,i); j--) {
             draw_horiz_lines(tex, i);
             //draw_vert_lines(tex, i);
         }
     }
+    blacken_bottom(tex);
 }
 
 static void fill_tex(unsigned char *tex) {

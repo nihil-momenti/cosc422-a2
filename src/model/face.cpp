@@ -36,25 +36,6 @@ double Face::area() {
     return mem_area;
 }
 
-//void Face::display() {
-//    Edge *e = edge;
-//
-//    do {
-//        Point  point =  e->vert->point;
-//        Vector normal = e->vert->normal();
-//        Vector dir = e->vert->point - edge->vert->point;
-//
-//        glMultiTexCoord2d(GL_TEXTURE0, 0.5, 0.5);
-//        glMultiTexCoord2d(GL_TEXTURE1, 0.5, 0.5);
-//        glMultiTexCoord2d(GL_TEXTURE2, 0.5, 0.5);
-//
-//        glNormal3d(normal.dx, normal.dy, normal.dz);
-//        glVertex3d(point.x, point.y, point.z);
-//
-//        e = e->next;
-//    } while (e != edge);
-//}
-
 void Face::display() {
     Vert *v1 = edge->vert,
          *v2 = edge->next->vert,
