@@ -34,16 +34,21 @@ class Vert {
         VertSet one_ring();
         VertSet two_ring();
 
+        Vector max_curvature_dir();
+        Vector min_curvature_dir();
+        double max_curvature_mag();
+        Vector min_curvature_mag();
+
         Point point;
         Edge *edge;
 
     private:
         void calc_curvature();
         Vector mem_normal;
-        Vector max_curvature_dir,
-               min_curvature_dir;
-        double max_curvature_mag,
-               min_curvature_mag;
+        Vector mem_max_curvature_dir,
+               mem_min_curvature_dir;
+        double mem_max_curvature_mag,
+               mem_min_curvature_mag;
 };
 
 class Face {

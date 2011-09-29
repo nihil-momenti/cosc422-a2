@@ -33,6 +33,14 @@ static double sign(double num) {
     }
 }
 
+Vector Vert::max_curvature_dir() {
+    if (mem_max_curvature_dir == Vector()) {
+        calc_curvature();
+    }
+
+    return mem_max_curvature_dir;
+}
+
 void Vert::calc_curvature() {
     Edge *e = edge;
 
@@ -63,8 +71,7 @@ void Vert::calc_curvature() {
     Matrix3 m2 = qvi.transpose() * m * qvi;
 
     double m11   = m2.values[4],
-           m12   = m2.values[5],
-           m21   = m2.values[7],
+           m12   = m2.values[7],
            m22   = m2.values[8],
            beta  = (m22 - m11) / 2 / m12,
            t     = sign(beta) / (abs(beta) + sqrt(pow(beta, 2) + 1)),
@@ -77,15 +84,15 @@ void Vert::calc_curvature() {
            k2_p  = 3 * m22_p - m11_p;
 
     if (k1_p < k2_p) {
-        max_curvature_mag = k1_p;
-        max_curvature_dir = cos(phi) * qvi.col(1) - sin(phi) * qvi.col(2);
-        min_curvature_mag = k2_p;
-        min_curvature_dir = sin(phi) * qvi.col(1) + cos(phi) * qvi.col(2);
+        mem_max_curvature_mag = k1_p;
+        mem_max_curvature_dir = cos(phi) * qvi.col(1) - sin(phi) * qvi.col(2);
+        mem_min_curvature_mag = k2_p;
+        mem_min_curvature_dir = sin(phi) * qvi.col(1) + cos(phi) * qvi.col(2);
     } else {
-        max_curvature_mag = k2_p;
-        max_curvature_dir = sin(phi) * qvi.col(1) + cos(phi) * qvi.col(2);
-        min_curvature_mag = k1_p;
-        min_curvature_dir = cos(phi) * qvi.col(1) - sin(phi) * qvi.col(2);
+        mem_max_curvature_mag = k2_p;
+        mem_max_curvature_dir = sin(phi) * qvi.col(1) + cos(phi) * qvi.col(2);
+        mem_min_curvature_mag = k1_p;
+        mem_min_curvature_dir = cos(phi) * qvi.col(1) - sin(phi) * qvi.col(2);
     }
 }
 
