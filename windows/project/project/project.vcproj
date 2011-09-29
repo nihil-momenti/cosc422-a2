@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\sphere.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\texture.cpp"
 				>
 			</File>
@@ -273,6 +277,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\shaders.hpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\sphere.hpp"
 				>
 			</File>
 			<File

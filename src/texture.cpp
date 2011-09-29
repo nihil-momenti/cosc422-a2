@@ -77,7 +77,7 @@ static void blacken_bottom(unsigned char *tex) {
 static void fill_tex2(unsigned char *tex) {
     clear_tex(tex);
     for (int i = TEX_LAYERS-1; i >= 0; i--) {
-        for (int j = pow(1.4,(TEX_LAYERS-2)); j >= pow(1.4,i); j--) {
+        for (int j = pow(1.4,(double)(TEX_LAYERS-2)); j >= pow(1.4,(double)i); j--) {
             draw_horiz_lines(tex, i);
             //draw_vert_lines(tex, i);
         }

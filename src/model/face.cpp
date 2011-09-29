@@ -1,3 +1,4 @@
+#include <glew.h>
 #include <GL/glut.h>
 
 #include "halfedge.hpp"
