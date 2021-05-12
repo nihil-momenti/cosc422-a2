@@ -11,12 +11,10 @@ else
   CPPFLAGS += -g
 endif
 CPPFLAGS += -MD -MP -MF .dep/$(subst /,-,$@).d
-CPPFLAGS += $(shell pkg-config --cflags gl glu)
+CPPFLAGS += $(shell pkg-config --cflags gl glu glut glew)
 CPPFLAGS += $(ORIGINAL_FLAGS)
 
-LDFLAGS += $(shell pkg-config --libs gl glu)
-
-include cosc_hacks.mk
+LDFLAGS += $(shell pkg-config --libs gl glu glut glew)
 
 ###############################################################################
 

@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <glew.h>
+#include <GL/glew.h>
 
 extern GLuint shaders_init_program(const std::string &vert_shader, const std::string &frag_shader);
 
